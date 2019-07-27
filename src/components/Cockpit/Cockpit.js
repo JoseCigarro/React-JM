@@ -1,39 +1,43 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import style from './Cockpit.module.css'
 
 const Cockpit =  props  => {
+    const toogleBtnRef = useRef(null);
+    
+
     useEffect(() => {
-      console.log('[Cockpit.js] useEffect');
+    console.log('[Cockpit.js] useEffect');
       // http request...
-      setTimeout(() =>{
-        alert('Save data to cloud');
-      }, 1000);
-      return () => {
+    // setTimeout(() =>{
+    //     alert('Save data to cloud');
+    // }, 1000);
+    toogleBtnRef.current.click();
+    return () => {
         console.log('[Cockpit.js] cleanup work in useEffect');
-      }
+    }
     }, []);
 
     useEffect(() =>{
-      console.log('[Cockpit.js] 2nd udeEffect');
-      return () => {
-        console.log('[Cockpit.js] cleanup work in 2nd useEffect');
-      }
+        console.log('[Cockpit.js] 2nd udeEffect');
+        return () => {
+            console.log('[Cockpit.js] cleanup work in 2nd useEffect');
+        }
     });
 
     // useEffect
-  
+
     const classes = [];
     let btnClass = '';
     if(props.showPersons){
-      btnClass = style.Red;
+        btnClass = style.Red;
     }
 
-    if (props.persons.length <= 2) {
+    if (props.personsLength <= 2) {
       classes.push(style.red); // classes = ['red']
     }
 
-    if (props.persons.length <=1) {
+    if (props.personsLength <=1) {
       classes.push(style.bold); // classes = ['red', 'bold']
     }
 
@@ -42,12 +46,14 @@ const Cockpit =  props  => {
             <h1>{props.title}</h1>
             <p className={classes.join(' ')}>This is really working!</p>
             <button
+                ref={toogleBtnRef}
                 className={btnClass}
-                onClick={props.clicked}>Toggle Persons
+                onClick={props.clicked}>
+                    Toggle Persons
             </button>
+            <button onClick={props.login}>Log In</button>
         </div>
-
     );
 };
 
-export default Cockpit;
+export default React.memo(Cockpit);
